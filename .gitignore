@@ -1,0 +1,4 @@
+# skip all .class files
+*.class
+build/
+bin/
