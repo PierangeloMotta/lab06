@@ -29,8 +29,12 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         /*
          * The probability should be in [0, 1[!
          */
+        if (failProbability < 0 || failProbability >= 1 ) {
+            throw new IllegalArgumentException("[Pier] Exception: failProbability must be in range 0(included)-1(excluded)");
+        }             
         this.failProbability = failProbability;
         randomGenerator = new Random(randomSeed);
+
     }
 
     /**
@@ -61,9 +65,16 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
              * This method, in this point, should throw an IllegalStateException.
              * Its cause, however, is the previous NumberFormatException.
              * Always preserve the original stacktrace!
-             *
+             */
+            
+            //throw new IllegalArgumentException("[Pier] IllegalArgumentException exception");
+            
+            /*
              * The previous exceptions must be set as the cause of the new exception
              */
+            throw new IllegalArgumentException(message, exceptionWhenParsedAsNumber);
+            
+
         }
     }
 
@@ -77,9 +88,21 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         }
     }
 
+    /*
     private void accessTheNework(final String message) throws IOException {
         if (randomGenerator.nextDouble() < failProbability) {
             throw new IOException("Generic I/O error");
+        }
+    }
+    */
+    private void accessTheNework(final String message) throws IOException {
+        if (randomGenerator.nextDouble() < failProbability) {
+            if(message != null) {
+                throw new NetworkException(message);        
+            }else{
+                throw new NetworkException();
+            }
+
         }
     }
 
