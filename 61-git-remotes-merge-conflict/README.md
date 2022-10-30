@@ -11,7 +11,7 @@ Prima di eseguire ogni operazione sul worktree o sul repository,
 si verifichi lo stato del repository con `git status`.
 
 1. Si cloni localmente il repository
-https://github.com/APICe-at-DISI/OOP-git-merge-conflict-test
+git clone https://github.com/APICe-at-DISI/OOP-git-merge-conflict-test
 Cloning into '.'...
 remote: Enumerating objects: 12, done.
 remote: Counting objects: 100% (4/4), done.
