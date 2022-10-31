@@ -11,9 +11,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * 
@@ -34,8 +37,10 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * Define any necessary field
      *
      * In order to save the people followed by a user organized in groups, adopt
-     * a generic-type Map:  think of what type of keys and values would best suit the requirements
+     * a generic-type Map: think of what type of keys and values would best suit the
+     * requirements
      */
+    private Map<U, String> circleMap;
 
     /*
      * [CONSTRUCTORS]
@@ -52,22 +57,27 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * Builds a user participating in a social network.
      *
      * @param name
-     *            the user firstname
+     *                the user firstname
      * @param surname
-     *            the user lastname
+     *                the user lastname
      * @param userAge
-     *            user's age
+     *                user's age
      * @param user
-     *            alias of the user, i.e. the way a user is identified on an
-     *            application
+     *                alias of the user, i.e. the way a user is identified on an
+     *                application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
+        this.circleMap = new HashMap<>();
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        super(name, surname, user, -1);
+        this.circleMap = new HashMap<>();
+    }
 
     /*
      * [METHODS]
@@ -76,6 +86,10 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
+        if (this.circleMap.get(user) == null) {
+            circleMap.put(user, circle);
+            return true;
+        }
         return false;
     }
 
@@ -86,11 +100,21 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        final Collection<U> coll = new ArrayList<>();
+        for (U u : circleMap.keySet()) {
+            if (circleMap.get(u) == groupName) {
+                coll.add(u);
+            }
+        }
+        return coll;
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        final List<U> allFollowers = new LinkedList<>();
+        for (U u : circleMap.keySet()) {
+            allFollowers.add(u);
+        }
+        return allFollowers;
     }
 }
