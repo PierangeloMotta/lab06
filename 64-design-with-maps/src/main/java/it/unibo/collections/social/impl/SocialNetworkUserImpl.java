@@ -40,7 +40,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * a generic-type Map: think of what type of keys and values would best suit the
      * requirements
      */
-    private Map<U, String> circleMap;
+    private Map<U, String> followerMap;
 
     /*
      * [CONSTRUCTORS]
@@ -68,7 +68,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
         super(name, surname, user, userAge);
-        this.circleMap = new HashMap<>();
+        this.followerMap = new HashMap<>();
     }
 
     /*
@@ -76,7 +76,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user) {
         super(name, surname, user, -1);
-        this.circleMap = new HashMap<>();
+        this.followerMap = new HashMap<>();
     }
 
     /*
@@ -86,8 +86,8 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        if (this.circleMap.get(user) == null) {
-            circleMap.put(user, circle);
+        if (this.followerMap.get(user) == null) {
+            followerMap.put(user, circle);
             return true;
         }
         return false;
@@ -101,8 +101,8 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
         final Collection<U> coll = new ArrayList<>();
-        for (U u : circleMap.keySet()) {
-            if (circleMap.get(u) == groupName) {
+        for (U u : followerMap.keySet()) {
+            if (followerMap.get(u) == groupName) {
                 coll.add(u);
             }
         }
@@ -112,7 +112,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
     @Override
     public List<U> getFollowedUsers() {
         final List<U> allFollowers = new LinkedList<>();
-        for (U u : circleMap.keySet()) {
+        for (U u : followerMap.keySet()) {
             allFollowers.add(u);
         }
         return allFollowers;
